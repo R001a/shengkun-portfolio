@@ -257,7 +257,13 @@ const SectionTitle = ({ title, subtitle, desc, centered = false }) => (
 
 function mediaSrcFromLabel(label = "") {
   const match = label.match(/assets\/[^\s]+/);
-  return match ? `/${match[0]}` : "";
+  return match ? assetUrl(match[0]) : "";
+}
+
+function assetUrl(path = "") {
+  if (!path) return "";
+  if (/^(https?:|data:|blob:)/i.test(path)) return path;
+  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
 }
 
 function openMediaPreview({ label, src = "", type = "image" }) {
@@ -271,7 +277,7 @@ const ImagePlaceholder = ({ label, className = "", icon, src, type = "image" }) 
   const content = useContext(PortfolioContentContext);
   const override = content.media?.[label];
   const inferredType = /视频|录屏|showreel|tvc|\.mp4|\.mov|\.webm/i.test(label) ? 'video' : type;
-  const effectiveSrc = override?.src || src || "";
+  const effectiveSrc = override?.src || assetUrl(src);
   const effectiveType = override?.type || inferredType;
   return (
       <div
@@ -310,7 +316,9 @@ const ImagePlaceholder = ({ label, className = "", icon, src, type = "image" }) 
   );
 };
 
-const SkillEvidenceCard = ({ number, title, desc, src, large = false, showTags = true }) => (
+const SkillEvidenceCard = ({ number, title, desc, src, large = false, showTags = true }) => {
+  const effectiveSrc = assetUrl(src);
+  return (
   <div className={`relative glass-card rounded-2xl overflow-hidden bg-[#05070b]/72 border-[#4f46e5]/15 shadow-[0_0_22px_rgba(79,70,229,0.05)] transition-all duration-300 hover:border-[#8b5cf6]/35 hover:bg-[#111122]/55 hover:shadow-[0_0_26px_rgba(139,92,246,0.12)] ${large ? 'p-5 h-[475px]' : 'p-4 h-[226px]'}`}>
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.08),transparent_34%),radial-gradient(circle_at_100%_100%,rgba(139,92,246,0.06),transparent_30%)]"></div>
     <div className="relative z-10 flex flex-col h-full">
@@ -324,9 +332,9 @@ const SkillEvidenceCard = ({ number, title, desc, src, large = false, showTags =
         className={`relative rounded-xl border border-white/10 bg-[#020617] overflow-hidden cursor-zoom-in transition-colors duration-300 hover:border-[#8b5cf6]/40 ${large ? 'flex-1 min-h-0' : showTags ? 'h-[82px]' : 'flex-1 min-h-[104px] mb-1'}`}
         role="button"
         tabIndex={0}
-        onClick={() => openMediaPreview({ label: `${number} ${title}`, src })}
+        onClick={() => openMediaPreview({ label: `${number} ${title}`, src: effectiveSrc })}
         onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') openMediaPreview({ label: `${number} ${title}`, src });
+          if (event.key === 'Enter' || event.key === ' ') openMediaPreview({ label: `${number} ${title}`, src: effectiveSrc });
         }}
       >
         <div className="absolute top-0 left-0 right-0 h-8 bg-white/[0.04] border-b border-white/10 flex items-center justify-between px-4 z-10">
@@ -337,7 +345,7 @@ const SkillEvidenceCard = ({ number, title, desc, src, large = false, showTags =
           </div>
           <span className="text-[10px] text-gray-400 font-mono">Evidence Preview / Skill Screenshot</span>
         </div>
-        <img src={src} alt={`${number} ${title}`} className="w-full h-full object-cover pt-8 opacity-90" loading="lazy" />
+        <img src={effectiveSrc} alt={`${number} ${title}`} className="w-full h-full object-cover pt-8 opacity-90" loading="lazy" />
       </div>
       {showTags && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
@@ -348,7 +356,8 @@ const SkillEvidenceCard = ({ number, title, desc, src, large = false, showTags =
       )}
     </div>
   </div>
-);
+  );
+};
 
 // 流程图节点组件
 const FlowNode = ({ text, isLast = false, highlight = false }) => (
@@ -408,7 +417,7 @@ const HeroAnimation = () => (
 // ================= 主页面 =================
 
 const EDIT_DRAFT_KEY = 'shengkun-portfolio-text-draft-v2';
-const PORTFOLIO_CONTENT_URL = '/content/portfolio-content.json';
+const PORTFOLIO_CONTENT_URL = assetUrl('content/portfolio-content.json');
 const PortfolioContentContext = createContext({ media: {}, text: {} });
 
 function getEditableTextKey(el, occurrence) {
@@ -1176,14 +1185,14 @@ export default function Portfolio() {
                        className="group relative cursor-zoom-in overflow-hidden rounded-2xl border border-white/10 bg-[#050505] p-3 transition-all duration-300 hover:border-[#8b5cf6]/40 hover:bg-[#10091f] hover:shadow-[0_0_28px_rgba(139,92,246,0.14)]"
                        role="button"
                        tabIndex={0}
-                       onClick={() => openMediaPreview({ label: 'OpenClaw 具体工作流程图 / assets/openclaw-workflow-final.jpg', src: '/assets/openclaw-workflow-final.jpg' })}
+                       onClick={() => openMediaPreview({ label: 'OpenClaw 具体工作流程图 / assets/openclaw-workflow-final.jpg', src: assetUrl('assets/openclaw-workflow-final.jpg') })}
                        onKeyDown={(event) => {
-                         if (event.key === 'Enter' || event.key === ' ') openMediaPreview({ label: 'OpenClaw 具体工作流程图 / assets/openclaw-workflow-final.jpg', src: '/assets/openclaw-workflow-final.jpg' });
+                         if (event.key === 'Enter' || event.key === ' ') openMediaPreview({ label: 'OpenClaw 具体工作流程图 / assets/openclaw-workflow-final.jpg', src: assetUrl('assets/openclaw-workflow-final.jpg') });
                        }}
                      >
                        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,0.08),transparent_35%)] opacity-70"></div>
                        <img
-                         src="/assets/openclaw-workflow-final.jpg"
+                         src={assetUrl('assets/openclaw-workflow-final.jpg')}
                          alt="OpenClaw 具体工作流程图"
                          className="relative z-10 block w-full rounded-xl object-contain"
                        />
