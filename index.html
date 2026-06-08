@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>盛坤 | Portfolio Preview</title>
+    <meta name="description" content="盛坤个人作品集 Gemini 样本复刻预览。" />
+    <script>
+      tailwind = {
+        config: {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: [
+                  "-apple-system",
+                  "BlinkMacSystemFont",
+                  "Segoe UI",
+                  "Roboto",
+                  "Helvetica Neue",
+                  "Arial",
+                  "sans-serif",
+                ],
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

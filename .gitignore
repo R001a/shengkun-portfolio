@@ -1,0 +1,10 @@
+tools/cos-config.local.js
+.env
+.env.local
+.env.*.local
+admin/uploads/
+*.log
+node_modules/
+dist/
+src/*.bak-*
+vite-debug*.log

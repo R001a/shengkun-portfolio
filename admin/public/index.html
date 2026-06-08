@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>盛坤作品集本地后台</title>
+    <link rel="stylesheet" href="/admin/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">LOCAL ADMIN</div>
+        <h1>盛坤作品集本地后台</h1>
+      </div>
+      <div class="actions">
+        <a href="http://127.0.0.1:5173" target="_blank" rel="noreferrer">打开作品集</a>
+        <button id="refreshBtn" type="button">刷新列表</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel sidebar">
+        <div class="status" id="status">正在连接后台...</div>
+        <input id="searchInput" class="search" placeholder="搜索模块名称 / assets 路径" />
+        <div id="placeholderList" class="list"></div>
+      </aside>
+
+      <section class="panel editor">
+        <div class="empty" id="emptyState">
+          <h2>选择一个图片/视频位置</h2>
+          <p>左侧会列出页面中的图片、视频占位。选择后上传文件或粘贴线上链接。</p>
+        </div>
+
+        <div class="editor-content hidden" id="editorContent">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">MEDIA SLOT</div>
+              <h2 id="slotTitle"></h2>
+            </div>
+            <button id="clearBtn" class="ghost" type="button">清空此位置</button>
+          </div>
+
+          <div class="preview" id="previewBox">
+            <div class="placeholder">当前还没有替换素材</div>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              素材类型
+              <select id="typeSelect">
+                <option value="image">图片</option>
+                <option value="video">视频</option>
+              </select>
+            </label>
+
+            <label>
+              上传文件到 COS
+              <input id="fileInput" type="file" accept="image/*,video/*" />
+            </label>
+          </div>
+
+          <button id="uploadBtn" class="primary" type="button">上传到 COS 并替换</button>
+
+          <div class="divider"></div>
+
+          <label>
+            或者直接粘贴图片 / 视频 / 网页资源链接
+            <input id="urlInput" placeholder="https://..." />
+          </label>
+          <button id="saveUrlBtn" type="button">保存链接到此位置</button>
+
+          <pre id="resultBox"></pre>
+        </div>
+      </section>
+    </main>
+
+    <script src="/admin/app.js" type="module"></script>
+  </body>
+</html>

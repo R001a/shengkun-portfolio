@@ -1,0 +1,41 @@
+html,
+body,
+#root {
+  background: #050505;
+}
+
+body {
+  overflow-x: auto;
+}
+
+/* Keep the Gemini layout intact on narrow screens, like viewing a PDF canvas. */
+@media (max-width: 900px) {
+  html,
+  body,
+  #root {
+    min-width: 1660px;
+    max-width: none;
+  }
+
+  body {
+    overflow-x: auto;
+  }
+
+  #root > div,
+  #root main,
+  #root nav > div {
+    width: 1660px;
+    max-width: 1660px !important;
+  }
+
+  #root main,
+  #root nav > div {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    box-sizing: border-box;
+  }
+
+  #root nav {
+    min-width: 1660px;
+  }
+}

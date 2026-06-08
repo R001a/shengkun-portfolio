@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作品集 COS 本地上传工具</title>
+    <link rel="stylesheet" href="./uploader.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <p class="eyebrow">Local Tool / Tencent COS</p>
+        <h1>作品集素材上传</h1>
+        <p>
+          这个页面只在你本地使用。选择图片或视频后上传到腾讯云 COS，完成后复制生成的链接，放进作品集数据里即可。
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="grid">
+          <label>
+            Bucket
+            <input id="bucket" autocomplete="off" />
+          </label>
+          <label>
+            Region
+            <input id="region" autocomplete="off" />
+          </label>
+          <label>
+            上传目录
+            <input id="prefix" autocomplete="off" />
+          </label>
+          <label>
+            访问域名
+            <input id="publicBaseUrl" autocomplete="off" />
+          </label>
+        </div>
+        <div class="grid secret-grid">
+          <label>
+            SecretId
+            <input id="secretId" type="password" autocomplete="off" />
+          </label>
+          <label>
+            SecretKey
+            <input id="secretKey" type="password" autocomplete="off" />
+          </label>
+        </div>
+        <p class="hint">
+          本地配置来自 <code>tools/cos-config.local.js</code>，该文件已加入 .gitignore，不要上传到 GitHub。
+        </p>
+      </section>
+
+      <section class="panel">
+        <label class="dropzone" for="fileInput">
+          <input id="fileInput" type="file" multiple accept="image/*,video/*,.gif,.webp" />
+          <strong>选择图片 / 视频</strong>
+          <span>支持多选，文件会上传到上方目录</span>
+        </label>
+        <div id="fileList" class="file-list"></div>
+        <button id="uploadBtn" type="button">上传到 COS</button>
+      </section>
+
+      <section class="panel">
+        <div class="result-head">
+          <h2>上传结果</h2>
+          <button id="copyAllBtn" type="button">复制全部链接</button>
+        </div>
+        <textarea id="resultBox" readonly placeholder="上传成功后，图片链接会出现在这里"></textarea>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js"></script>
+    <script src="./cos-config.local.js"></script>
+    <script src="./uploader.js"></script>
+  </body>
+</html>
