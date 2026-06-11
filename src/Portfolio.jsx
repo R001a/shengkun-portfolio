@@ -420,6 +420,10 @@ const EDIT_DRAFT_KEY = 'shengkun-portfolio-text-draft-v2';
 const PORTFOLIO_CONTENT_URL = assetUrl('content/portfolio-content.json');
 const PortfolioContentContext = createContext({ media: {}, text: {} });
 
+function isLocalEditingAllowed() {
+  return ['127.0.0.1', 'localhost', '::1'].includes(window.location.hostname);
+}
+
 function getEditableTextKey(el, occurrence) {
   const text = el.textContent?.trim().replace(/\s+/g, ' ').slice(0, 80) || 'text';
   return `${el.tagName.toLowerCase()}-${text}-${occurrence}`;
@@ -632,6 +636,7 @@ function MediaPreviewModal() {
 
 export default function Portfolio() {
   const [content, setContent] = useState({ media: {}, text: {} });
+  const localEditingAllowed = isLocalEditingAllowed();
 
   useEffect(() => {
     let active = true;
@@ -654,7 +659,7 @@ export default function Portfolio() {
     <PortfolioContentContext.Provider value={content}>
     <div data-portfolio-root="true" className="font-sans text-gray-200 min-h-screen pb-24 selection:bg-[#8b5cf6] selection:text-white" style={{ backgroundColor: '#050505' }}>
       <CustomStyles />
-      <EditModeControls />
+      {localEditingAllowed && <EditModeControls />}
       <MediaPreviewModal />
       
       {/* 导航栏 */}
